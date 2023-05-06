@@ -1,0 +1,113 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+  <div class="post">
+    <h1>{{ post.title }}</h1>
+    <p class="date">{{ post.published_date }}</p>
+    <p>{{ post.text }}</p>
+  </div>
+
+  <hr>
+
+  <!-- Mostrar los comentarios existentes -->
+  {% if comments %}
+    <h2>Comentarios</h2>
+    <ul class="comments">
+      {% for comment in comments %}
+        <li class="comment">
+          <h3>{{ comment.author_name }}</h3>
+          <p class="date">{{ comment.created_date }}</p>
+          <p>{{ comment.body|linebreaks }}</p>
+        </li>
+      {% empty %}
+        <li>No hay comentarios todavía</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <hr>
+
+  <!-- Mostrar el formulario de comentarios -->
+  <h2>Agregar un comentario</h2>
+  <form class="comment-form" method="post">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button class="btn btn-primary" type="submit">Enviar</button>
+  </form>
+  
+  <style>
+    .post {
+      background-color: #f7f7f7;
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .date {
+      color: #999;
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
+    
+    .comments {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .comment {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .comment h3 {
+      margin-top: 0;
+    }
+    
+    .comment p.date {
+      color: #999;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+    
+    .comment p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    
+    .comment-form {
+      border: 1px solid #ddd;
+      padding: 20px;
+    }
+    
+    .comment-form label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .comment-form input,
+    .comment-form textarea {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+    }
+    
+    .comment-form button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+    
+    .comment-form button:hover {
+      background-color: #0069d9;
+    }
+  </style>
+  
+{% endblock %}
+
+
